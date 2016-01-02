@@ -20,10 +20,12 @@ public class GameOfLife extends Automaton2Dim {
         super(cellStateFactory, cellNeighborhood);
     }
 
+    @Override
     public Automaton newInstance(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood){
         return new GameOfLife(cellStateFactory, cellNeighborhood);
     }
 
+    @Override
     public CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
         int countOfAliveCells = 0;
 

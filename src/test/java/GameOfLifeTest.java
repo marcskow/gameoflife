@@ -23,7 +23,7 @@ public class GameOfLifeTest {
     @Test
     public void hasNextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
-                new GeneralStateFactory(),
+                null,
                 new MoreNeighborhood()
         );
         gameOfLife.setWidth(300 + 1);
@@ -41,7 +41,7 @@ public class GameOfLifeTest {
     @Test
     public void initialCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
-                new GeneralStateFactory(),
+                null,
                 new MoreNeighborhood()
         );
         gameOfLife.setWidth(300 + 1);
@@ -56,7 +56,7 @@ public class GameOfLifeTest {
     @Test
     public void nextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
-                new GeneralStateFactory(),
+                null,
                 new MoreNeighborhood()
         );
         gameOfLife.setWidth(300 + 1);
@@ -83,7 +83,7 @@ public class GameOfLifeTest {
     @Test
     public void nextCellStateForCellInBothStatesAnd3AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
-                new GeneralStateFactory(),
+                null,
                 new MoreNeighborhood()
         );
         gameOfLife.setWidth(300 + 1);
@@ -111,7 +111,7 @@ public class GameOfLifeTest {
     @Test
     public void nextCellStateForCellInBothStatesAnd6AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
-                new GeneralStateFactory(),
+                null,
                 new MoreNeighborhood()
         );
         gameOfLife.setWidth(300 + 1);

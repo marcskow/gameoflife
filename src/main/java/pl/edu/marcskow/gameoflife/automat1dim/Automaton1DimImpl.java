@@ -3,6 +3,7 @@ package pl.edu.marcskow.gameoflife.automat1dim;
 import pl.edu.marcskow.gameoflife.automat.Automaton;
 import pl.edu.marcskow.gameoflife.cell.Cell;
 import pl.edu.marcskow.gameoflife.coordinates.CellCoordinates;
+import pl.edu.marcskow.gameoflife.coordinates.Coords1D;
 import pl.edu.marcskow.gameoflife.factory.CellStateFactory;
 import pl.edu.marcskow.gameoflife.neighborhood.CellNeighborhood;
 import pl.edu.marcskow.gameoflife.state.BinaryState;
@@ -11,6 +12,7 @@ import pl.edu.marcskow.gameoflife.state.CellState;
 import java.util.Set;
 
 /**
+ *
  * Created by Marcin Skowron on 2015-12-31.
  */
 public class Automaton1DimImpl extends Automaton1Dim {
@@ -28,25 +30,62 @@ public class Automaton1DimImpl extends Automaton1Dim {
     protected CellState nextCellState(CellState currentState, Set<Cell> neighborsStates) {
         CellState[] neighbors = convertStatesFromSetToArray(neighborsStates);
 
+        int[] results = returnTheNumberOnTheBinarySystem(110);
+        BinaryState[] resultStates = convertTheNumberToCellState(results);
+
         if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.ALIVE){
-            return BinaryState.DEAD;
+            return resultStates[0];
         }
-        if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.DEAD){
-            return BinaryState.DEAD;
+        else if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.DEAD){
+            return resultStates[1];
         }
-        if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.ALIVE){
-            return BinaryState.DEAD;
+        else if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.DEAD && neighbors[1] == BinaryState.ALIVE){
+            return resultStates[2];
         }
-        if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.ALIVE){
-            return BinaryState.DEAD;
+        else if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.DEAD && neighbors[1] == BinaryState.DEAD){
+            return resultStates[3];
+        }
+        else if(neighbors[0] == BinaryState.DEAD && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.ALIVE){
+            return resultStates[4];
+        }
+        else if(neighbors[0] == BinaryState.DEAD && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.DEAD){
+            return resultStates[5];
+        }
+        else if(neighbors[0] == BinaryState.DEAD && currentState == BinaryState.DEAD && neighbors[1] == BinaryState.ALIVE){
+            return resultStates[6];
+        }
+        else if(neighbors[0] == BinaryState.DEAD && currentState == BinaryState.DEAD && neighbors[1] == BinaryState.DEAD){
+            return resultStates[7];
+        }
+        else {
+            return currentState;
         }
     }
 
+    private int[] returnTheNumberOnTheBinarySystem(int number){
+        if (number > 255){
+            return null;
+        }
+        int[] binaryNumber = new int[8];
+        int i = 0;
+        while(number > 1){
+            binaryNumber[i++] = number % 2;
+            number /= 2;
+        }
+        return binaryNumber;
+    }
 
-
-    @Override
-    protected CellCoordinates initialCoordinates() {
-        return null;
+    private BinaryState[] convertTheNumberToCellState(int[] binaryNumber){
+        BinaryState[] cellState = new BinaryState[binaryNumber.length];
+        for (int i = 0; i < binaryNumber.length; i++){
+            if (binaryNumber[i] == 0) {
+                cellState[i] = BinaryState.DEAD;
+            }
+            else {
+                cellState[i] = BinaryState.ALIVE;
+            }
+        }
+        return cellState;
     }
 
     private CellState[] convertStatesFromSetToArray(Set<Cell> neighbors){

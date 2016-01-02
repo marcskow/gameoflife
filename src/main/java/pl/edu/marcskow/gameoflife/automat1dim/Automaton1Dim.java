@@ -33,7 +33,8 @@ public abstract class Automaton1Dim extends Automaton {
         }
     }
 
-    protected CellCoordinates initialCoordinates(CellCoordinates cellCoordinates){
+    @Override
+    protected CellCoordinates initialCoordinates() {
         return new Coords1D(-1);
     }
 

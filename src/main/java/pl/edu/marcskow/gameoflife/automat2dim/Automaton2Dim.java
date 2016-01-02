@@ -36,6 +36,7 @@ public abstract class Automaton2Dim extends Automaton{
         super(cellStateFactory, cellNeighborhood);
     }
 
+    @Override
     public boolean hasNextCoordinates(CellCoordinates cellCoordinates){
         Coords2D cellCoords = (Coords2D)cellCoordinates;
 
@@ -49,6 +50,7 @@ public abstract class Automaton2Dim extends Automaton{
         }
     }
 
+    @Override
     public CellCoordinates initialCoordinates(){
         return new Coords2D(-1,0);
     }
@@ -57,6 +59,7 @@ public abstract class Automaton2Dim extends Automaton{
      * @param cellCoordinates coordinates for which we are finding the next one
      * @return Coords2D next coordinates for a given coordinates
      */
+
     public CellCoordinates nextCoordinates(CellCoordinates cellCoordinates){
         Coords2D cellCoords = (Coords2D)cellCoordinates;
         int previousX = cellCoords.getX();

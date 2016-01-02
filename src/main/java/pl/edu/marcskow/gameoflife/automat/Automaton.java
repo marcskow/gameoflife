@@ -7,6 +7,7 @@ import pl.edu.marcskow.gameoflife.state.CellState;
 import pl.edu.marcskow.gameoflife.neighborhood.CellNeighborhood;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,12 +30,28 @@ public abstract class Automaton {
 
     // TODO: 2015-12-30 the most important thing 
     public Automaton nextState(){
-        return null;
+        Automaton newAutomaton = newInstance(stateFactory,neighborsStrategy);
+
+        CellIterator it = new CellIterator();
+
+        while(it.hasNext()){
+            Cell c = it.next();
+            Set<CellCoordinates> neighbors = neighborsStrategy.cellNeighborhoods(c.getCoords());
+            Set<Cell> mappedNeighbors = mapCoordinates(neighbors);
+
+            CellState newState = nextCellState(c.getState(), mappedNeighbors);
+            newAutomaton.cells.put(c.getCoords(), nextCellState(c.getState(),mappedNeighbors));
+        }
+        return newAutomaton;
     }
 
     // TODO: 2015-12-30 is it good? probably 
     public void insertStructure(Map<? extends CellCoordinates,? extends CellState> structure){
         cells.putAll(structure);
+    }
+
+    public CellIterator iterator() {
+        return new CellIterator();
     }
 
     // TODO: 2015-12-30 is it good? i think
@@ -55,7 +72,7 @@ public abstract class Automaton {
         return null;
     }
 
-    private class CellIterator{
+    private class CellIterator {
         private CellCoordinates currentState;
 
         // TODO: 2015-12-30 is it good? probably yes
@@ -79,5 +96,6 @@ public abstract class Automaton {
         public void setState(CellState cellState){
             cells.replace(currentState,cellState);
         }
+
     }
 }
