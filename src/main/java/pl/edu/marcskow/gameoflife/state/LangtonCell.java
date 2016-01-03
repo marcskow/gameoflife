@@ -12,6 +12,11 @@ public class LangtonCell implements CellState {
     private BinaryState cellState;
     private Set<Ant> ants;
 
+    @Override
+    public CellState nextState() {
+        return this;
+    }
+
     // TODO: 2015-12-30 should be <Ant>?
     public LangtonCell() {
         this(BinaryState.DEAD, new HashSet<Ant>(1));
