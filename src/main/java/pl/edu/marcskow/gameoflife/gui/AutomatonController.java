@@ -4,17 +4,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import pl.edu.marcskow.gameoflife.state.BinaryState;
-import pl.edu.marcskow.gameoflife.state.CellState;
+import pl.edu.marcskow.gameoflife.automat.Automaton;
+import pl.edu.marcskow.gameoflife.automat2dim.GameOfLife;
+import pl.edu.marcskow.gameoflife.factory.GeneralStateFactory;
+import pl.edu.marcskow.gameoflife.neighborhood.MoreNeighborhood;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,6 +42,7 @@ public class AutomatonController extends AnchorPane implements Initializable{
     private final ObservableList<String> elementaryStructureList = FXCollections.observableArrayList(""); // TODO: 2016-01-02
 
     private GridModel gridModel;
+    private GameModel gameModel;
     private GridDisplayController displayController;
 
     //General settings
@@ -78,19 +79,14 @@ public class AutomatonController extends AnchorPane implements Initializable{
 
         automatonChoiceBox.getItems().addAll(automatonTypeList);
         automatonChoiceBox.getSelectionModel().selectedItemProperty().addListener(automatonBoxOnChangeListener);
-        automatonChoiceBox.getSelectionModel().selectFirst();
-
-        displayController = new GridDisplayController();
-        gridModel = new GridModel(DEFAULT_GRID_COLUMNS, DEFAULT_GRID_ROWS, automatonChoiceBox.getValue());
-
-        setDefaultWindowSettings();
-    }
-
-    private void setDefaultWindowSettings(){
-        setAdditionalOptionsSettings(false, false);
 
         neighbourhoodChoiceBox.getItems().addAll(FXCollections.emptyObservableList());
         structureChoiceBox.getItems().addAll(FXCollections.emptyObservableList());
+
+        setAdditionalOptionsSettings(true, false);
+
+        displayController = new GridDisplayController();
+        gridModel = new GridModel(DEFAULT_GRID_COLUMNS, DEFAULT_GRID_ROWS, DEFAULT_AUTOMATON);
 
         updateGridDisplay();
     }
@@ -98,14 +94,13 @@ public class AutomatonController extends AnchorPane implements Initializable{
     public void updateGridDisplay(){
         Color color;
         gridPane.getChildren().clear();
-        gridPane.setVisible(false);
+
         for (int i = 0; i < gridModel.getColumns(); i++) {
             for (int j = 0; j < gridModel.getRows(); j++) {
-                color = displayController.setColorToAutomatonType(automatonChoiceBox.getValue(),gridModel.getCell(i,j));
+                color = displayController.setColorToAutomatonType(gridModel.getAutomatonType(),gridModel.getCellFromMap(i,j));// TODO: 2016-01-03
                 drowRectangle(color, i, j);
             }
         }
-        gridPane.setVisible(true);
     }
 
     private void drowRectangle(Color color, int x, int y){
@@ -120,19 +115,22 @@ public class AutomatonController extends AnchorPane implements Initializable{
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldType, String newType) {
             switch (newType) {
-                case "Game Of Life":changeAutomatonType(newType, gameOfLifeStructureList, neighbourhoodList, true, false); break;
+                case "Game Of Life":
+                    changeAutomatonType(newType, gameOfLifeStructureList, neighbourhoodList, true, false);
+                    break;
                 case "Langton Ant":changeAutomatonType(newType, langtonStructureList, FXCollections.observableArrayList("Von Neuman"), false, false); break;
                 case "WireWorld": changeAutomatonType(newType, wireWorldStructureList, FXCollections.observableArrayList("Moore"), false, false); break;
                 case "Elementary": changeAutomatonType(newType, elementaryStructureList, FXCollections.observableArrayList("Elementary") ,false, true); break;
                 case "QuadLife": changeAutomatonType(newType, gameOfLifeStructureList, neighbourhoodList, true, false); break;
             }
+            gridModel.prepareGridAfterAutomatonChange();
             updateGridDisplay();
         }
     };
 
     private void changeAutomatonType(String newType, ObservableList<String> structure, ObservableList<String> neighbourhood, boolean areGameOfLifeRulesVisible, boolean areElementaryRulesVisible){
-        updatePossibleStructure(structure);
-        updateNeighbourhood(neighbourhood);
+        structureChoiceBox.getItems().setAll(structure);
+        neighbourhoodChoiceBox.getItems().setAll(neighbourhood);
         setAdditionalOptionsSettings(areGameOfLifeRulesVisible, areElementaryRulesVisible);
         gridModel.setAutomatonType(newType);
     }
@@ -146,25 +144,16 @@ public class AutomatonController extends AnchorPane implements Initializable{
         elementaryRuleLabel.setVisible(areElementaryRulesVisible);
     }
 
-    private void updatePossibleStructure(ObservableList<String> structure){
-        structureChoiceBox.getItems().setAll(structure);
-    }
-
-    private void updateNeighbourhood(ObservableList<String> neighbourhood){
-        neighbourhoodChoiceBox.getItems().setAll(neighbourhood);
-    }
-
-
     private ChangeListener<String> sizeBoxOnChangeListener = new ChangeListener<String>() {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldSize, String newSize) {
             switch (newSize) {
-                case "10x8":    gridModel.setDimension(10,8); break;
-                case "20x16":   gridModel.setDimension(20,16); break;
-                case "40x32":   gridModel.setDimension(40,32); break;
-                case "50x40":   gridModel.setDimension(50,40); break;
-                case "100x80":  gridModel.setDimension(100,80); break;
-                case "125x100": gridModel.setDimension(125,100); break;
+                case "10x8":    gridModel.setDimension(10,8); CoordinatesService.setDimension(10,8); break;
+                case "20x16":   gridModel.setDimension(20,16); CoordinatesService.setDimension(20,16); break;
+                case "40x32":   gridModel.setDimension(40,32); CoordinatesService.setDimension(40,32); break;
+                case "50x40":   gridModel.setDimension(50,40); CoordinatesService.setDimension(50,40); break;
+                case "100x80":  gridModel.setDimension(100,80); CoordinatesService.setDimension(100,80); break;
+                case "125x100": gridModel.setDimension(125,100); CoordinatesService.setDimension(125,100); break;
             }
             gridModel.prepareGridAfterAutomatonChange(); // TODO: 2016-01-03 after big changes
             updateGridDisplay();
@@ -173,30 +162,37 @@ public class AutomatonController extends AnchorPane implements Initializable{
 
     @FXML
     public void onStart(){
+        gameModel = new GameModel(new MoreNeighborhood(), new GeneralStateFactory(gridModel.getCellsMap()));
+        ((GameOfLife)gameModel.getAutomaton()).setWidth(gridModel.getColumns());
+        ((GameOfLife)gameModel.getAutomaton()).setHeight(gridModel.getRows());
+        GameModel.wrapping = true;
+        GameModel.mapSizeX = gridModel.getColumns();
+        GameModel.mapSizeY = gridModel.getRows();
+        gameModel.getAutomaton().setMap(gridModel.getCellsMap());
+        gameModel.setAutomaton(gameModel.getAutomaton().nextState());
+
+        gridModel.setCellsMap(gameModel.getAutomaton().getCells());
+
+        updateGridDisplay();
 
     }
-
-    private EventHandler<MouseEvent> gridOnMouseClickedHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            int y = (int) event.getY();
-            int x = (int) event.getX();
-            int roundedY = y / gridModel.getRows();
-            int roundedX = x / gridModel.getColumns();
-            CellState current = gridModel.getCell(roundedX,roundedY);
-            gridModel.setCell(roundedX,roundedY,current.nextState());
-            drowRectangle(displayController.setColorToAutomatonType(automatonChoiceBox.getValue(),current),roundedX,roundedY);
-
-        }
-
-    };
 
     @FXML
-    public void mouseClickedOnGrid(MouseEvent e){
-        Node source = (Node)e.getSource() ;
-        Integer colIndex = GridPane.getColumnIndex(source);
-        Integer rowIndex = GridPane.getRowIndex(source);
-        log.info("Mousce clicked on y: " + e.getY() + " x: " + e.getX());
+    public void mouseClickedOnGrid(MouseEvent event) {
+        int y = (int) event.getY();
+        int x = (int) event.getX();
+        log.info("Mousce clicked on y: " + event.getY() + " x: " + event.getX());
+        int oneCellSize = (int) gridModel.getWidth() / gridModel.getColumns();
+        int roundedY = y / oneCellSize;
+        int roundedX = x / oneCellSize;
+        log.info("Rounded y: " + roundedY + " rounded x: " + roundedX);
+
+       gridModel.changeCellStateToNext(roundedX,roundedY);
+        gridModel.changeOnMapCellStateToNext(roundedX,roundedY);
+
+        Color newCellStateColor = displayController.setColorToAutomatonType(gridModel.getAutomatonType(),gridModel.getCell(roundedX,roundedY));
+        drowRectangle(newCellStateColor,roundedX,roundedY);
     }
+
 
 }

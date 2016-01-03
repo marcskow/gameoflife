@@ -32,10 +32,12 @@ public class GameOfLifeTest {
         Coords2D coords1 = new Coords2D(0, 0);
         Coords2D coords2 = new Coords2D(300, 150);
         Coords2D coords3 = new Coords2D(300, 200);
+        Coords2D coords4 = new Coords2D(-1, 0);
 
         Assert.assertTrue("failure - should be true", gameOfLife.hasNextCoordinates(coords1));
         Assert.assertTrue("failure - should be true", gameOfLife.hasNextCoordinates(coords2));
         Assert.assertFalse("failure - should be false", gameOfLife.hasNextCoordinates(coords3));
+        Assert.assertTrue("failure - should be true", gameOfLife.hasNextCoordinates(coords4));
     }
 
     @Test

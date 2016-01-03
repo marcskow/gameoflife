@@ -1,9 +1,5 @@
 package pl.edu.marcskow.gameoflife.coordinates;
 
-/**
- * Created by intenso on 02.12.15.
- */
-
 public class Coords2D implements CellCoordinates {
     private final int x;
     private final int y;
@@ -44,4 +40,11 @@ public class Coords2D implements CellCoordinates {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Coords2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

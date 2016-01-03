@@ -36,7 +36,7 @@ public class GridDisplayController {
 
     public Color convertWireElectronStateToColor(WireElectronState state){
         switch (state){
-            case VOID: return Color.GRAY;
+            case VOID: return Color.BLACK;
             case WIRE: return Color.ORANGE;
             case ELECTRON_HEAD: return Color.BLUE;
             case ELECTRON_TAIL: return Color.RED;

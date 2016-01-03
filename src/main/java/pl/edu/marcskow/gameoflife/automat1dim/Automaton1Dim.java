@@ -38,6 +38,7 @@ public abstract class Automaton1Dim extends Automaton {
         return new Coords1D(-1);
     }
 
+    @Override
     protected CellCoordinates nextCoordinates(CellCoordinates cellCoordinates){
         return new Coords1D(((Coords1D) cellCoordinates).getX() + 1);
     }
