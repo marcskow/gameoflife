@@ -36,15 +36,12 @@ public class GameOfLife extends Automaton2Dim {
     @Override
     public CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
         int countOfAliveCells = 0;
-        String strin = "";
         for (Cell c: neighborsStates) {
-            strin += "neig: " + ((Coords2D)c.getCoords()).getX() + " " +((Coords2D) c.getCoords()).getY();
 
             if(c.getState() == BinaryState.ALIVE) {
                 countOfAliveCells++;
             }
         }
-        log.info(strin);
         /*
         Zasady gry:
         - Jeżeli komórka jest martwa i ma DOKLADNIE trzech żywych sąsiadów, to w następnej generacji staje się żywa,

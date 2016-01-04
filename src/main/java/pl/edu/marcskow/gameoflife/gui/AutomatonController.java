@@ -13,7 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import pl.edu.marcskow.gameoflife.automat.Automaton;
 import pl.edu.marcskow.gameoflife.automat2dim.GameOfLife;
+import pl.edu.marcskow.gameoflife.factory.CellStateFactory;
 import pl.edu.marcskow.gameoflife.factory.GeneralStateFactory;
+import pl.edu.marcskow.gameoflife.neighborhood.CellNeighborhood;
 import pl.edu.marcskow.gameoflife.neighborhood.MoreNeighborhood;
 
 import java.net.URL;
@@ -42,8 +44,13 @@ public class AutomatonController extends AnchorPane implements Initializable{
     private final ObservableList<String> elementaryStructureList = FXCollections.observableArrayList(""); // TODO: 2016-01-02
 
     private GridModel gridModel;
-    private GameModel gameModel;
     private GridDisplayController displayController;
+    private OnStartService onStartService;
+
+    //New Automaton Fields
+    private Automaton newAutomaton;
+    private CellNeighborhood newAutomatonNeighborhood;
+    private CellStateFactory newAutomatonFactory;
 
     //General settings
     @FXML  ChoiceBox<String> automatonChoiceBox;
@@ -87,6 +94,7 @@ public class AutomatonController extends AnchorPane implements Initializable{
 
         displayController = new GridDisplayController();
         gridModel = new GridModel(DEFAULT_GRID_COLUMNS, DEFAULT_GRID_ROWS, DEFAULT_AUTOMATON);
+        onStartService = new OnStartService();
 
         updateGridDisplay();
     }
@@ -162,18 +170,31 @@ public class AutomatonController extends AnchorPane implements Initializable{
 
     @FXML
     public void onStart(){
-        gameModel = new GameModel(new MoreNeighborhood(), new GeneralStateFactory(gridModel.getCellsMap()));
-        ((GameOfLife)gameModel.getAutomaton()).setWidth(gridModel.getColumns());
-        ((GameOfLife)gameModel.getAutomaton()).setHeight(gridModel.getRows());
-        GameModel.wrapping = true;
-        GameModel.mapSizeX = gridModel.getColumns();
-        GameModel.mapSizeY = gridModel.getRows();
-        gameModel.getAutomaton().setMap(gridModel.getCellsMap());
-        gameModel.setAutomaton(gameModel.getAutomaton().nextState());
+        log.info(automatonChoiceBox.getValue() + " " + neighbourhoodChoiceBox.getValue());
+        CoordinatesService.isWrapping = true; // TODO: 2016-01-04 button!
+        onStartService.startSettingsUpdate(automatonChoiceBox.getValue(),
+                neighbourhoodChoiceBox.getValue(), gridModel.getCellsMap(), gridModel.getColumns(), gridModel.getRows());
+        newAutomaton = onStartService.getAutomaton();
 
-        gridModel.setCellsMap(gameModel.getAutomaton().getCells());
+        int i = 0;
+        while(i < 5) {
+            newAutomaton = newAutomaton.nextState();
+            gridModel.setCellsMap(newAutomaton.getCells());
+            updateGridDisplay();
 
-        updateGridDisplay();
+            try {
+
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            i++;
+        }
+
+    }
+
+    @FXML
+    public void stop(){
 
     }
 
@@ -181,11 +202,9 @@ public class AutomatonController extends AnchorPane implements Initializable{
     public void mouseClickedOnGrid(MouseEvent event) {
         int y = (int) event.getY();
         int x = (int) event.getX();
-        log.info("Mousce clicked on y: " + event.getY() + " x: " + event.getX());
         int oneCellSize = (int) gridModel.getWidth() / gridModel.getColumns();
         int roundedY = y / oneCellSize;
         int roundedX = x / oneCellSize;
-        log.info("Rounded y: " + roundedY + " rounded x: " + roundedX);
 
        gridModel.changeCellStateToNext(roundedX,roundedY);
         gridModel.changeOnMapCellStateToNext(roundedX,roundedY);

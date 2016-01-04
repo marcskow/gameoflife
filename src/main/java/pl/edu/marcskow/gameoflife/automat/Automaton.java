@@ -66,7 +66,6 @@ public abstract class Automaton {
         for (CellCoordinates coords : cellCoordinates) {
             cellSet.add(new Cell(cells.get(coords),coords));
         }
-
         return cellSet;
     }
 
