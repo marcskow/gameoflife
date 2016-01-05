@@ -17,13 +17,14 @@ import java.util.Set;
  */
 public class Automaton1DimImpl extends Automaton1Dim {
 
-    public Automaton1DimImpl(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood) {
+    public Automaton1DimImpl(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int size) {
         super(cellStateFactory, cellNeighborhood);
+        setSize(size);
     }
 
     @Override
     protected Automaton newInstance(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood) {
-        return new Automaton1DimImpl(cellStateFactory,cellNeighborhood);
+        return new Automaton1DimImpl(cellStateFactory,cellNeighborhood,getSize());
     }
 
     @Override

@@ -24,10 +24,10 @@ public class GameOfLifeTest {
     public void hasNextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood()
+                new MoreNeighborhood(),
+                301,
+                201
         );
-        gameOfLife.setWidth(300 + 1);
-        gameOfLife.setHeight(200 + 1);
 
         Coords2D coords1 = new Coords2D(0, 0);
         Coords2D coords2 = new Coords2D(300, 150);
@@ -44,10 +44,10 @@ public class GameOfLifeTest {
     public void initialCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood()
+                new MoreNeighborhood(),
+                301,
+                201
         );
-        gameOfLife.setWidth(300 + 1);
-        gameOfLife.setHeight(200 + 1);
 
         Coords2D actual = (Coords2D) gameOfLife.initialCoordinates();
 
@@ -59,10 +59,10 @@ public class GameOfLifeTest {
     public void nextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood()
+                new MoreNeighborhood(),
+                301,
+                201
         );
-        gameOfLife.setWidth(300 + 1);
-        gameOfLife.setHeight(200 + 1);
 
         Coords2D cellCoords1 = new Coords2D(0, 0);
         Coords2D cellCoords2 = new Coords2D(299, 200);
@@ -86,10 +86,10 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd3AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood()
+                new MoreNeighborhood(),
+                301,
+                201
         );
-        gameOfLife.setWidth(300 + 1);
-        gameOfLife.setHeight(200 + 1);
 
         BinaryState currentState1 = BinaryState.DEAD;
         BinaryState currentState2 = BinaryState.ALIVE;
@@ -114,10 +114,10 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd6AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood()
+                new MoreNeighborhood(),
+                301,
+                201
         );
-        gameOfLife.setWidth(300 + 1);
-        gameOfLife.setHeight(200 + 1);
 
         BinaryState currentState1 = BinaryState.DEAD;
         BinaryState currentState2 = BinaryState.ALIVE;

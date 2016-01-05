@@ -14,12 +14,14 @@ import java.util.Set;
  */
 public class WireWorld extends Automaton2Dim{
 
-    public WireWorld(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood){
+    public WireWorld(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int height, int width){
         super(cellStateFactory, cellNeighborhood);
+        setHeight(height);
+        setWidth(width);
     }
 
     protected Automaton newInstance(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood){
-        return new WireWorld(cellStateFactory, cellNeighborhood);
+        return new WireWorld(cellStateFactory, cellNeighborhood, getHeight(), getWidth());
     }
 
     protected CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){

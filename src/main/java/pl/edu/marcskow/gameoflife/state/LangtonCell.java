@@ -10,21 +10,21 @@ import java.util.Set;
  */
 public class LangtonCell implements CellState {
     private BinaryState cellState;
-    private Set<Ant> ants;
+    private AntState antState;
 
     @Override
     public CellState nextState() {
-        return this;
+        return new LangtonCell((BinaryState)cellState.nextState(), (AntState)antState.nextState());
     }
 
     // TODO: 2015-12-30 should be <Ant>?
     public LangtonCell() {
-        this(BinaryState.DEAD, new HashSet<Ant>(1));
+        this(BinaryState.DEAD, AntState.NONE);
     }
 
-    public LangtonCell(BinaryState cellState, Set<Ant> ants) {
+    public LangtonCell(BinaryState cellState, AntState antState) {
         this.cellState = cellState;
-        this.ants = ants;
+        this.antState = antState;
     }
 
     public BinaryState getCellState() {
@@ -35,15 +35,11 @@ public class LangtonCell implements CellState {
         this.cellState = cellState;
     }
 
-    public Set<Ant> getAnts() {
-        return ants;
+    public AntState getAntState() {
+        return antState;
     }
 
-    public void setAnts(Set<Ant> ants) {
-        this.ants = ants;
-    }
-
-    public void addAnt(Ant ant){
-        ants.add(ant);
+    public void setAntState(AntState antState) {
+        this.antState = antState;
     }
 }

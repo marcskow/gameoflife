@@ -4,6 +4,7 @@ import pl.edu.marcskow.gameoflife.automat.Automaton;
 import pl.edu.marcskow.gameoflife.automat1dim.Automaton1DimImpl;
 import pl.edu.marcskow.gameoflife.automat2dim.GameOfLife;
 import pl.edu.marcskow.gameoflife.automat2dim.LangtonAnt;
+import pl.edu.marcskow.gameoflife.automat2dim.QuadLife;
 import pl.edu.marcskow.gameoflife.automat2dim.WireWorld;
 import pl.edu.marcskow.gameoflife.coordinates.CellCoordinates;
 import pl.edu.marcskow.gameoflife.factory.CellStateFactory;
@@ -22,11 +23,15 @@ import java.util.Map;
  */
 public class OnStartService {
 
+    public static int[] cellSurvivingRule;
+    public static int[] newCellRule;
+
     private String automatonType;
     private String neighbourhoodType;
     Map<CellCoordinates, CellState> cells;
     private int sizeX;
     private int sizeY;
+    private Automaton automaton;
 
     public OnStartService() {
         this.automatonType = null;
@@ -42,6 +47,7 @@ public class OnStartService {
         this.cells = cells;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.automaton = getAutomaton();
     }
 
     public CellNeighborhood neighbourhoodFromString(String type) {
@@ -77,18 +83,22 @@ public class OnStartService {
     public Automaton automatonFromString(String type, CellNeighborhood neighborhood, CellStateFactory factory) {
         switch (type) {
             case "Game Of Life":
-                return new GameOfLife(factory, neighborhood);
+                return new GameOfLife(factory, neighborhood, sizeX, sizeY);
             case "Langton Ant":
-                return new LangtonAnt(factory, neighborhood);
+                return new LangtonAnt(factory, neighborhood, sizeX, sizeY);
             case "WireWorld":
-                return new WireWorld(factory, neighborhood);
+                return new WireWorld(factory, neighborhood, sizeX, sizeY);
             case "QuadLife":
-                return new GameOfLife(factory, neighborhood);
+                return new QuadLife(factory, neighborhood, sizeX, sizeY);
             case "Elementary":
-                return new Automaton1DimImpl(factory, neighborhood);
+                return new Automaton1DimImpl(factory, neighborhood, sizeX * sizeY);
             default:
-                return new GameOfLife(factory, neighborhood);
+                return new GameOfLife(factory, neighborhood, sizeX, sizeY);
         }
+    }
+
+    public Automaton updateAutomaton(){
+        return null;
     }
 
     public Automaton getAutomaton() {
@@ -97,47 +107,53 @@ public class OnStartService {
                 case "Game Of Life":
                     GameOfLife gameOfLife = new GameOfLife(
                             stateFactoryFromString(automatonType, cells),
-                            neighbourhoodFromString(neighbourhoodType)
+                            neighbourhoodFromString(neighbourhoodType),
+                            sizeX, sizeY
                     );
-                    gameOfLife.setHeight(sizeY);
-                    gameOfLife.setWidth(sizeX);
+                    //gameOfLife.setHeight(sizeY);
+                    //gameOfLife.setWidth(sizeX);
                     gameOfLife.setMap(cells);
                     return gameOfLife;
 
                 case "Langton Ant":
                     LangtonAnt langtonAnt = new LangtonAnt(
                             stateFactoryFromString(automatonType, cells),
-                            neighbourhoodFromString(neighbourhoodType)
+                            neighbourhoodFromString(neighbourhoodType),
+                            sizeX, sizeY
                     );
-                    langtonAnt.setHeight(sizeY);
-                    langtonAnt.setWidth(sizeX);
+                    //langtonAnt.setHeight(sizeY);
+                    //langtonAnt.setWidth(sizeX);
                     langtonAnt.setMap(cells);
                     return langtonAnt;
 
                 case "WireWorld":
                     WireWorld wireWorld = new WireWorld(
                             stateFactoryFromString(automatonType, cells),
-                            neighbourhoodFromString(neighbourhoodType)
+                            neighbourhoodFromString(neighbourhoodType),
+                            sizeX, sizeY
                     );
-                    wireWorld.setHeight(sizeY);
-                    wireWorld.setWidth(sizeX);
+                    //wireWorld.setHeight(sizeY);
+                    //wireWorld.setWidth(sizeX);
                     wireWorld.setMap(cells);
                     return wireWorld;
                 case "QuadLife":
-                    GameOfLife quadlife = new GameOfLife(
+                    QuadLife quadlife = new QuadLife(
                             stateFactoryFromString(automatonType, cells),
-                            neighbourhoodFromString(neighbourhoodType)
+                            neighbourhoodFromString(neighbourhoodType),
+                            sizeX,
+                            sizeY
                     );
-                    quadlife.setHeight(sizeY);
-                    quadlife.setWidth(sizeX);
+                    //quadlife.setHeight(sizeY);
+                    //quadlife.setWidth(sizeX);
                     quadlife.setMap(cells);
                     return quadlife;
                 case "Elementary":
                     Automaton1DimImpl elementary = new Automaton1DimImpl(
                             stateFactoryFromString(automatonType, cells),
-                            neighbourhoodFromString(neighbourhoodType)
+                            neighbourhoodFromString(neighbourhoodType),
+                            sizeX * sizeY
                     );
-                    elementary.setSize(sizeX * sizeY);
+                   // elementary.setSize(sizeX * sizeY);
                     elementary.setMap(cells);
                     return elementary;
                 default:

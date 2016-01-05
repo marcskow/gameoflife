@@ -10,7 +10,7 @@ public enum AntState implements CellState {
     public CellState nextState() {
         switch (this) {
             case NONE:
-                return NONE;
+                return NORTH;
             case NORTH:
                 return EAST;
             case SOUTH:
@@ -18,8 +18,8 @@ public enum AntState implements CellState {
             case EAST:
                 return SOUTH;
             case WEST:
-                return NORTH;
-            default: return this;
+                return NONE;
+            default: return NORTH;
         }
     }
 }

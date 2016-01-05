@@ -1,9 +1,11 @@
 package pl.edu.marcskow.gameoflife.neighborhood;
 
+import pl.edu.marcskow.gameoflife.automat.Automaton;
 import pl.edu.marcskow.gameoflife.coordinates.CellCoordinates;
 import pl.edu.marcskow.gameoflife.coordinates.Coords2D;
+import pl.edu.marcskow.gameoflife.gui.AutomatonController;
 import pl.edu.marcskow.gameoflife.gui.CoordinatesService;
-import pl.edu.marcskow.gameoflife.gui.GameModel;
+import pl.edu.marcskow.gameoflife.gui.GridDisplayController;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,20 @@ public class MoreNeighborhood implements CellNeighborhood {
         int currentX = currentCoords.getX();
         int currentY = currentCoords.getY();
 
+        for(int i = (-1)*AutomatonController.radius; i <= AutomatonController.radius; i++){
+            for (int j = (-1)*AutomatonController.radius; j <= AutomatonController.radius; j++){
+                if ((!(i == 0 && j == 0))) {
+                    if(CoordinatesService.isWrapping){
+                        cellNeighbors.add(new Coords2D(CoordinatesService.setWhenWrapping(currentX + i,CoordinatesService.columns),
+                                CoordinatesService.setWhenWrapping(currentY + j, CoordinatesService.rows)));
+                    }
+                    else if(areInsideMap(currentX + i, currentY + j)){
+                        cellNeighbors.add(new Coords2D(currentX + i, currentY + j));
+                    }
+                }
+            }
+        }
+/*
         if(CoordinatesService.areInsideMap(CoordinatesService.previousX(currentX), CoordinatesService.previousY(currentY))){
             cellNeighbors.add(new Coords2D(CoordinatesService.previousX(currentX), CoordinatesService.previousY(currentY)));
         }
@@ -61,5 +77,12 @@ public class MoreNeighborhood implements CellNeighborhood {
             id++;
         }*/
         return cellNeighbors;
+    }
+    public boolean areInsideMap(int x, int y) {
+        if ((x > -1) && (x < CoordinatesService.columns) && (y > -1) && (y < CoordinatesService.rows)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public class CoordinatesService {
     public static int columns = 40;
     public static int rows = 32;
-    public static boolean isWrapping = true;
+    //public static boolean isWrapping = true;
 
     public static void setDimension(int c, int r) {
         columns = c;
@@ -20,6 +20,18 @@ public class CoordinatesService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static int setWhenWrapping(int x, int containerSize){
+        if (x < 0) {
+            return (containerSize + x);
+        }
+        else if(x > containerSize - 1){
+            return x - containerSize;
+        }
+        else{
+            return x;
         }
     }
 

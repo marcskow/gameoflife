@@ -28,6 +28,7 @@ public class GridModel {
     private Map<CellCoordinates,CellState> cellsMap;
     private CellState[][] cells;
     private String automatonType;
+    private Automaton aut;
 
     public GridModel(){
         this(40,32, "Game Of Life");
@@ -175,6 +176,10 @@ public class GridModel {
         }else{
             cellsMap.put(new Coords2D(x,y), state);
         }
+    }
+
+    public void addStructure(Map<? extends CellCoordinates,? extends CellState> structure){
+        cellsMap.putAll(structure);
     }
 
     public CellState getCell(Coords2D coords){
