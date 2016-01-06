@@ -50,7 +50,7 @@ public class WireWorld extends Automaton2Dim{
      * @param neighborsStates neighbors of the cell
      * @return WireElectronState
      */
-    protected CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
+    public CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
         int countOfElectronHeads = 0;
 
         for (Cell c: neighborsStates) {

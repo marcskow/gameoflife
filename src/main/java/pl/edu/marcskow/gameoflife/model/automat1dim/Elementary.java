@@ -8,6 +8,7 @@ import pl.edu.marcskow.gameoflife.model.automat.Automaton;
 import pl.edu.marcskow.gameoflife.model.cell.Cell;
 import pl.edu.marcskow.gameoflife.model.factory.CellStateFactory;
 import pl.edu.marcskow.gameoflife.model.neighborhood.CellNeighborhood;
+import pl.edu.marcskow.gameoflife.model.neighborhood.ElementaryNeighborhood;
 import pl.edu.marcskow.gameoflife.model.state.BinaryState;
 import pl.edu.marcskow.gameoflife.model.state.CellState;
 
@@ -53,10 +54,10 @@ public class Elementary extends Automaton1Dim {
      * @return new CellState of Cell
      */
     @Override
-    protected CellState nextCellState(CellState currentState, Set<Cell> neighborsStates) {
+    public CellState nextCellState(CellState currentState, Set<Cell> neighborsStates) {
         CellState[] neighbors = convertStatesFromSetToArray(neighborsStates);
 
-        int[] results = returnTheNumberOnTheBinarySystem(110);
+        int[] results = returnTheNumberOnTheBinarySystem(elementaryRule);
         BinaryState[] resultStates = convertTheNumberToCellState(results);
 
         if(neighbors[0] == BinaryState.ALIVE && currentState == BinaryState.ALIVE && neighbors[1] == BinaryState.ALIVE){

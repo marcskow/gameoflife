@@ -69,4 +69,5 @@ public class ElementaryNeighborhood implements CellNeighborhood {
     public void setRadius(int radius) {
         this.radius = radius;
     }
+
 }

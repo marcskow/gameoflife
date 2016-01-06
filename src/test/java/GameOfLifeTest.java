@@ -18,7 +18,7 @@ public class GameOfLifeTest {
     public final static double DELTA = 1.e-15;
     public final static int COLUMNS = 40;
     public final static int ROWS = 32;
-    public final static int[] newRule = {2};
+    public final static int[] newRule = {3};
     public final static int[] survive = {2,3};
 
     @Test
