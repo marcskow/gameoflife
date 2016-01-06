@@ -10,21 +10,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * This class represents one structure e.g. Glider, Dakota. Each structure has width, height, name.
+ * Structure is a container of CellStates defining a structure.
+ */
 public class Structure {
+    /** structure width */
     private int width;
+    /** structure height */
     private int height;
+    /** structure name */
     String name;
-
+    /** structure fields */
     private CellState[][] structure;
-
-    public Structure(String name){
-        this(0,0, null, name);
-    }
 
     public Structure(int height, int width, String name){
         this(height,width,new CellState[height][width],name);
     }
 
+    /**
+     * @param height of structure
+     * @param width of structure
+     * @param structure define the fields of structure
+     * @param name name of structrue
+     */
     public Structure(int height, int width, CellState[][] structure, String name){
         this.width = width;
         this.height = height;
@@ -32,6 +41,12 @@ public class Structure {
         this.name = name;
     }
 
+    /**
+     * Structure fields are two dimensional array but can be convert to Map
+     * @param states states of structure
+     * @param deadState what kind of structure is it, what is the deadState, e.g. QuadState.Dead or BinaryState.Dead
+     * @return map of structure fields
+     */
     public Map<CellCoordinates,CellState> toMap2D(CellState[][] states, CellState deadState){
         Map<CellCoordinates, CellState> mappedStructure = new HashMap<>();
         for(int i = 0; i < height; i++){
@@ -62,24 +77,12 @@ public class Structure {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public CellState[][] getStructure() {
@@ -90,18 +93,11 @@ public class Structure {
         this.structure = structure;
     }
 
-    public void initializeWithDead(){
-        for (int i = 0; i < height; i++){
-            for (int j = 0; j < width; j++){
-                structure[i][j] = BinaryState.DEAD;
-            }
-        }
-    }
-
-    public void setCell(int x, int y, CellState state){
-        structure[x][y] = state;
-    }
-
+    /**
+     * The same structure can represent Game Of Life structure and QuadLife structure with other fields states, so
+     * that's easy to make on structure from another automaton type
+     * @return CellState[][] of structure fields
+     */
     public CellState[][] convertToQuadLife(){
         CellState[][] quadStructure = new CellState[height][width];
         Random generator = new Random();

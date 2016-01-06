@@ -3,6 +3,7 @@ package pl.edu.marcskow.gameoflife.model.coordinates;
 /**
  * Type of CellCoordinates using in 2 dimensional automatons. This type of coordinates has two fields
  * x which represents horizontal, and y represents vertical
+ * @see CellCoordinates
  */
 public class Coords2D implements CellCoordinates {
     /** horizontal coord */

@@ -35,7 +35,7 @@ public class LangtonAnt extends Automaton2Dim{
     public LangtonAnt(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int width, int height){
         super(cellStateFactory, cellNeighborhood);
         this.setWidth(width);
-        this.setHeight(height);;
+        this.setHeight(height);
     }
 
 
@@ -57,7 +57,7 @@ public class LangtonAnt extends Automaton2Dim{
      * @param neighborsStates neighbors of the cell
      * @return next CellState of the current cell
      */
-    protected CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
+    public CellState nextCellState(CellState currentState, Set<Cell> neighborsStates){
         Coords2D currentCoordinates = (Coords2D)currentCoordinates(neighborsStates);
         int x = currentCoordinates.getX();
         int y = currentCoordinates.getY();

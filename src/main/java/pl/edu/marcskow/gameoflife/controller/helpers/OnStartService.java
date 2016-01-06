@@ -16,6 +16,10 @@ import pl.edu.marcskow.gameoflife.model.state.CellState;
 
 import java.util.Map;
 
+/**
+ * This class is a container and service for making new runnable automaton, it's taking information from
+ * choice box and other controls to set starting state for new automaton.
+ */
 public class OnStartService {
     private String automatonType;
     private String neighbourhoodType;
@@ -24,15 +28,30 @@ public class OnStartService {
     private int sizeY;
     private boolean isWrapping;
     private int radius;
+    public int[] bornRule;
+    public int[] surviveRule;
+    public int elementaryRule;
 
+    /**
+     * Default on start have no fields setted, but selecting choice boxes fields in gui will set options
+     * of new automaton
+     */
     public OnStartService() {
         this.automatonType = null;
         this.neighbourhoodType = null;
         this.cells = null;
         this.sizeX = 0;
         this.sizeY = 0;
+        this.elementaryRule = 0;
+        this.bornRule = null;
+        this.surviveRule = null;
     }
 
+    /**
+     * Converts given type of neighborhood from string to the neighborhood object instance
+     * @param type type of neighborhood
+     * @return CellNeighborhood instance
+     */
     public CellNeighborhood neighbourhoodFromString(String type) {
         switch (type) {
             case "Moore":
@@ -46,6 +65,9 @@ public class OnStartService {
         }
     }
 
+    /**
+     * @return new automaton to simulation
+     */
     public Automaton getAutomaton() {
         if (automatonType != null) {
             switch (automatonType) {
@@ -53,7 +75,7 @@ public class OnStartService {
                     GameOfLife gameOfLife = new GameOfLife(
                             new GeneralStateFactory(cells),
                             neighbourhoodFromString(neighbourhoodType),
-                            sizeX, sizeY
+                            sizeX, sizeY, surviveRule, bornRule
                     );
                     gameOfLife.setMap(cells);
                     return gameOfLife;
@@ -88,7 +110,7 @@ public class OnStartService {
                     Elementary elementary = new Elementary(
                             new GeneralStateFactory(cells),
                             neighbourhoodFromString(neighbourhoodType),
-                            sizeX * sizeY
+                            sizeX * sizeY, elementaryRule
                     );
                     elementary.setMap(cells);
                     return elementary;
@@ -100,24 +122,12 @@ public class OnStartService {
     }
 
 
-    public boolean isWrapping() {
-        return isWrapping;
-    }
-
     public void setWrapping(boolean wrapping) {
         isWrapping = wrapping;
     }
 
-    public int getRadius() {
-        return radius;
-    }
-
     public void setRadius(int radius) {
         this.radius = radius;
-    }
-
-    public String getNeighbourhoodType() {
-        return neighbourhoodType;
     }
 
     public void setNeighbourhoodType(String neighbourhoodType) {
@@ -147,5 +157,29 @@ public class OnStartService {
 
     public void startSettingsUpdate(Map<CellCoordinates, CellState> cells) {
         this.cells = cells;
+    }
+
+    public int[] getBornRule() {
+        return bornRule;
+    }
+
+    public void setBornRule(int[] bornRule) {
+        this.bornRule = bornRule;
+    }
+
+    public int[] getSurviveRule() {
+        return surviveRule;
+    }
+
+    public void setSurviveRule(int[] surviveRule) {
+        this.surviveRule = surviveRule;
+    }
+
+    public int getElementaryRule() {
+        return elementaryRule;
+    }
+
+    public void setElementaryRule(int elementaryRule) {
+        this.elementaryRule = elementaryRule;
     }
 }

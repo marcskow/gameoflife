@@ -1,8 +1,10 @@
 package pl.edu.marcskow.gameoflife.model.coordinates;
 
+
 /**
  * This class represents coordinates of cell in one dimensional automaton.
  * That's mean that cell can have only one coord which there is just x.
+ * @see CellCoordinates
  */
 public class Coords1D implements CellCoordinates {
     /** coord of the cell */

@@ -18,6 +18,8 @@ public class GameOfLifeTest {
     public final static double DELTA = 1.e-15;
     public final static int COLUMNS = 40;
     public final static int ROWS = 32;
+    public final static int[] newRule = {2};
+    public final static int[] survive = {2,3};
 
     @Test
     public void hasNextCoordinates() {
@@ -25,7 +27,7 @@ public class GameOfLifeTest {
                 null,
                 new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
-                201
+                201, survive,newRule
         );
 
         Coords2D coords1 = new Coords2D(0, 0);
@@ -45,7 +47,7 @@ public class GameOfLifeTest {
                 null,
                 new MoorNeighborhood(COLUMNS,ROWS,true,1),
                 301,
-                201
+                201, survive, newRule
         );
 
         Coords2D actual = (Coords2D) gameOfLife.initialCoordinates();
@@ -60,7 +62,7 @@ public class GameOfLifeTest {
                 null,
                 new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
-                201
+                201, survive, newRule
         );
 
         Coords2D cellCoords1 = new Coords2D(0, 0);
@@ -87,8 +89,9 @@ public class GameOfLifeTest {
                 null,
                 new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
-                201
+                201, survive, newRule
         );
+
 
         BinaryState currentState1 = BinaryState.DEAD;
         BinaryState currentState2 = BinaryState.ALIVE;
@@ -115,12 +118,12 @@ public class GameOfLifeTest {
                 null,
                 new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
-                201
+                201, survive, newRule
         );
 
         BinaryState currentState1 = BinaryState.DEAD;
         BinaryState currentState2 = BinaryState.ALIVE;
-        Set<Cell> cellSet = new HashSet<Cell>(8);
+        Set<Cell> cellSet = new HashSet<>(8);
 
         for(int i = 0; i < 6; i++) {
             cellSet.add(new Cell(BinaryState.ALIVE, new Coords2D(i,i)));

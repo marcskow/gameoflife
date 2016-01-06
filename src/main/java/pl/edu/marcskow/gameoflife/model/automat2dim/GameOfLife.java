@@ -23,6 +23,9 @@ import java.util.logging.Logger;
  */
 public class GameOfLife extends Automaton2Dim {
 
+    private int[] surviveRule;
+    private int[] newBornRule;
+
     /**
      * it's the only one constructor cause all of parameters are definitely needed
      * @param cellStateFactory type of cell state factory of this automaton
@@ -30,10 +33,12 @@ public class GameOfLife extends Automaton2Dim {
      * @param width number of map columns
      * @param height number of map rows
      */
-    public GameOfLife(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int width, int height){
+    public GameOfLife(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int width, int height, int[] survive, int[] newRule){
         super(cellStateFactory, cellNeighborhood);
         this.setWidth(width);
         this.setHeight(height);
+        this.surviveRule = survive;
+        this.newBornRule = newRule;
     }
 
     /**
@@ -44,7 +49,7 @@ public class GameOfLife extends Automaton2Dim {
      */
     @Override
     public Automaton newInstance(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood){
-        return new GameOfLife(cellStateFactory, cellNeighborhood, getWidth(), getHeight());
+        return new GameOfLife(cellStateFactory, cellNeighborhood, getWidth(), getHeight(), getSurviveRule(), getNewBornRule());
     }
 
     /**
@@ -70,10 +75,10 @@ public class GameOfLife extends Automaton2Dim {
         w przeciwnym wypadku nadal pozostaje martwa.
         - Jeżeli komórka jest żywa i ma 2 lub 3 sąsiadów, nadal pozostaje żywa, w przeciwnym wypadku staje się martwa.
          */
-        if(currentState == BinaryState.DEAD && isNumberInArray(countOfAliveCells, GameSettings.bornRule)) {
+        if(currentState == BinaryState.DEAD && isNumberInArray(countOfAliveCells, newBornRule)) {
             return BinaryState.ALIVE;
         }
-        else if (currentState == BinaryState.ALIVE && isNumberInArray(countOfAliveCells,GameSettings.surviveRule)){
+        else if (currentState == BinaryState.ALIVE && isNumberInArray(countOfAliveCells,surviveRule)){
             return BinaryState.ALIVE;
         }
         else if (currentState == BinaryState.ALIVE){
@@ -96,5 +101,13 @@ public class GameOfLife extends Automaton2Dim {
             if(number == i) return true;
         }
         return false;
+    }
+
+    public int[] getSurviveRule() {
+        return surviveRule;
+    }
+
+    public int[] getNewBornRule() {
+        return newBornRule;
     }
 }

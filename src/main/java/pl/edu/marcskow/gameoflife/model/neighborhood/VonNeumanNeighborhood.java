@@ -19,6 +19,13 @@ public class VonNeumanNeighborhood implements CellNeighborhood {
     private boolean isWrapping;
     private int radius;
 
+    /**
+     * setting options of the neighborhood, size of map, is it wrapping and radius of the area
+     * @param columns width of map
+     * @param rows height of map
+     * @param isWrapping wrapping option
+     * @param radius radius size
+     */
     public VonNeumanNeighborhood(int columns, int rows, boolean isWrapping, int radius){
         this.columns = columns;
         this.rows = rows;
@@ -26,6 +33,11 @@ public class VonNeumanNeighborhood implements CellNeighborhood {
         this.radius = radius;
     }
 
+    /**
+     * in van neuman default neighborhood there are 4 cells in but can be more if radius is greater then 1
+     * @param cellCoordinates coordinates of the cell which neighbors we are looking for
+     * @return Set with coordinates of cell neighbors on it
+     */
     @Override
     public Set<CellCoordinates> cellNeighborhoods(CellCoordinates cellCoordinates) {
         Wrapper wrapper = new Wrapper(isWrapping);
@@ -57,11 +69,19 @@ public class VonNeumanNeighborhood implements CellNeighborhood {
         return cellNeighbors;
     }
 
+    /**
+     * Set wrapping option
+     * @param wrapping isWrapping
+     */
     @Override
     public void setWrapping(boolean wrapping) {
         isWrapping = wrapping;
     }
 
+    /**
+     * Set radius size
+     * @param radius size
+     */
     @Override
     public void setRadius(int radius) {
         this.radius = radius;

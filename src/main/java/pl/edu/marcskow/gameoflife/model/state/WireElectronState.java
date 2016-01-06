@@ -6,6 +6,7 @@ package pl.edu.marcskow.gameoflife.model.state;
 /**
  * Enum class represents state of Cell in WireWorld automaton.
  * Can be void, wire, electron_head or electron_tail
+ * @see CellState
  */
 public enum WireElectronState implements CellState{
     VOID, WIRE, ELECTRON_HEAD, ELECTRON_TAIL;

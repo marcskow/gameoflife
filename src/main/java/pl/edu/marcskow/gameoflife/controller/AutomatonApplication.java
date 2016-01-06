@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Created by Marcin Skowron on 2016-01-02.
+ * This class starting the Automaton Application
  */
 public class AutomatonApplication extends Application {
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * It's a type of cellStateFactory using for initialize state of the cell
+ * @see CellStateFactory
  */
 public class GeneralStateFactory implements CellStateFactory{
     /** Container of CellStates and keys: CellCoordinates of his states*/

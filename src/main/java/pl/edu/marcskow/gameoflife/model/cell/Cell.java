@@ -5,6 +5,7 @@ import pl.edu.marcskow.gameoflife.model.state.CellState;
 
 /**
  * This class represents state of one cell in every automaton, the cell has state and position.
+ * @see pl.edu.marcskow.gameoflife.model.automat.Automaton
  */
 public class Cell {
     /** state of cell */

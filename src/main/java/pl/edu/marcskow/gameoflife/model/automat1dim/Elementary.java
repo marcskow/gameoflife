@@ -21,6 +21,7 @@ import java.util.Set;
  * @see Automaton
  */
 public class Elementary extends Automaton1Dim {
+    private int elementaryRule;
 
     /**
      * Elementary constructor needs cell state factory, neighborhood type and size of map.
@@ -28,9 +29,10 @@ public class Elementary extends Automaton1Dim {
      * @param cellNeighborhood type of neighborhood
      * @param size size of map
      */
-    public Elementary(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int size) {
+    public Elementary(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int size, int rule) {
         super(cellStateFactory, cellNeighborhood);
         setSize(size);
+        this.elementaryRule = rule;
     }
 
     /**
@@ -40,7 +42,7 @@ public class Elementary extends Automaton1Dim {
      */
     @Override
     protected Automaton newInstance(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood) {
-        return new Elementary(cellStateFactory,cellNeighborhood,getSize());
+        return new Elementary(cellStateFactory,cellNeighborhood,getSize(), getRule());
     }
 
     /**
@@ -137,5 +139,9 @@ public class Elementary extends Automaton1Dim {
         }
 
         return cellStates;
+    }
+
+    public int getRule() {
+        return elementaryRule;
     }
 }

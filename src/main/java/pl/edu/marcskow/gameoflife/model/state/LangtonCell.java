@@ -6,6 +6,7 @@ package pl.edu.marcskow.gameoflife.model.state;
 /**
  * LangtonCell is a complex CellState representing a field with an ant on it
  * to define langton cell state we have to define BinaryState of the field and AntState of ant
+ * @see CellState
  */
 public class LangtonCell implements CellState {
     /** state of the field */

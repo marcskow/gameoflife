@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * It's a container of structures, for start there are some defined structures, but they can be also included to the
+ * container later.
+ * @see Structure
+ */
 public class Structures {
     private ArrayList<Structure> structures;
 
@@ -84,6 +88,14 @@ public class Structures {
         return null;
     }
 
+    /**
+     * @param name which structure
+     * @param type type of automaton
+     * @param dead kind of dead cell state
+     * @param whereX where structure will be putted
+     * @param whereY where structure will be putted
+     * @return structure prepared to put on grid
+     */
     public Map<CellCoordinates,CellState> returnStructure(String name, String type, CellState dead, int whereX, int whereY){
         Structure temp = findOnList(name);
         Structure temp2 = new Structure(temp.getHeight(),temp.getWidth(),"temp");

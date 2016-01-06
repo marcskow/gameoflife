@@ -5,6 +5,7 @@ import pl.edu.marcskow.gameoflife.model.state.*;
 
 /**
  * Created by Marcin Skowron on 2016-01-03.
+ * Converters.
  */
 public class DisplayService {
 

@@ -8,6 +8,7 @@ import java.util.Random;
 /**
  * Type of state using by quadlife automaton can be five states
  * default - dead, and red, yellow, blue or green states of alive cells.
+ * @see CellState
  */
 public enum QuadState implements CellState {
     DEAD, RED, YELLOW, BLUE, GREEN;

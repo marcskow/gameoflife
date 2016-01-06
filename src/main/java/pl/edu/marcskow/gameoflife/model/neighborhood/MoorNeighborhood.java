@@ -64,11 +64,19 @@ public class MoorNeighborhood implements CellNeighborhood {
         return cellNeighbors;
     }
 
+    /**
+     * set wrapping option
+     * @param wrapping is wrapping
+     */
     @Override
     public void setWrapping(boolean wrapping) {
         isWrapping = wrapping;
     }
 
+    /**
+     * set radius option
+     * @param radius size of radius
+     */
     @Override
     public void setRadius(int radius) {
         this.radius = radius;
