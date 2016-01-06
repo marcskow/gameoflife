@@ -1,10 +1,10 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.edu.marcskow.gameoflife.automat2dim.GameOfLife;
-import pl.edu.marcskow.gameoflife.cell.Cell;
-import pl.edu.marcskow.gameoflife.coordinates.Coords2D;
-import pl.edu.marcskow.gameoflife.neighborhood.MoorNeighborhood;
-import pl.edu.marcskow.gameoflife.state.BinaryState;
+import pl.edu.marcskow.gameoflife.model.automat2dim.GameOfLife;
+import pl.edu.marcskow.gameoflife.model.cell.Cell;
+import pl.edu.marcskow.gameoflife.model.coordinates.Coords2D;
+import pl.edu.marcskow.gameoflife.model.neighborhood.MoorNeighborhood;
+import pl.edu.marcskow.gameoflife.model.state.BinaryState;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +16,14 @@ public class GameOfLifeTest {
     public final static int WIDTH = 300 + 1;
     public final static int HEIGHT = 200 + 1;
     public final static double DELTA = 1.e-15;
+    public final static int COLUMNS = 40;
+    public final static int ROWS = 32;
 
     @Test
     public void hasNextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoorNeighborhood(),
+                new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
                 201
         );
@@ -41,7 +43,7 @@ public class GameOfLifeTest {
     public void initialCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoorNeighborhood(),
+                new MoorNeighborhood(COLUMNS,ROWS,true,1),
                 301,
                 201
         );
@@ -56,7 +58,7 @@ public class GameOfLifeTest {
     public void nextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoorNeighborhood(),
+                new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
                 201
         );
@@ -83,7 +85,7 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd3AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoorNeighborhood(),
+                new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
                 201
         );
@@ -111,7 +113,7 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd6AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoorNeighborhood(),
+                new MoorNeighborhood(COLUMNS,ROWS, true,1),
                 301,
                 201
         );
