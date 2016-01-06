@@ -27,6 +27,11 @@ public class LangtonCell implements CellState {
         this.antState = antState;
     }
 
+    @Override
+    public CellState alive() {
+        return new LangtonCell((BinaryState)cellState.alive(),(AntState)antState.alive());
+    }
+
     public BinaryState getCellState() {
         return cellState;
     }

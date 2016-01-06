@@ -1,4 +1,4 @@
-package pl.edu.marcskow.gameoflife.gui;
+package pl.edu.marcskow.gameoflife.gui.application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

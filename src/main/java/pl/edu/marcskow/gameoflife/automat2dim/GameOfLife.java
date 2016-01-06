@@ -2,16 +2,12 @@ package pl.edu.marcskow.gameoflife.automat2dim;
 
 import pl.edu.marcskow.gameoflife.automat.Automaton;
 import pl.edu.marcskow.gameoflife.cell.Cell;
-import pl.edu.marcskow.gameoflife.coordinates.CellCoordinates;
-import pl.edu.marcskow.gameoflife.coordinates.Coords2D;
 import pl.edu.marcskow.gameoflife.factory.CellStateFactory;
-import pl.edu.marcskow.gameoflife.gui.AutomatonController;
+import pl.edu.marcskow.gameoflife.gui.helpers.GameSettings;
 import pl.edu.marcskow.gameoflife.neighborhood.CellNeighborhood;
 import pl.edu.marcskow.gameoflife.state.BinaryState;
 import pl.edu.marcskow.gameoflife.state.CellState;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -47,10 +43,10 @@ public class GameOfLife extends Automaton2Dim {
         w przeciwnym wypadku nadal pozostaje martwa.
         - Jeżeli komórka jest żywa i ma 2 lub 3 sąsiadów, nadal pozostaje żywa, w przeciwnym wypadku staje się martwa.
          */
-        if(currentState == BinaryState.DEAD && isNumberInArray(countOfAliveCells,AutomatonController.newCellRule)) {
+        if(currentState == BinaryState.DEAD && isNumberInArray(countOfAliveCells, GameSettings.bornRule)) {
             return BinaryState.ALIVE;
         }
-        else if (currentState == BinaryState.ALIVE && isNumberInArray(countOfAliveCells,AutomatonController.surviveRule)){
+        else if (currentState == BinaryState.ALIVE && isNumberInArray(countOfAliveCells,GameSettings.surviveRule)){
             return BinaryState.ALIVE;
         }
         else if (currentState == BinaryState.ALIVE){

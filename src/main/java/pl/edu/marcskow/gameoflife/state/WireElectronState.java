@@ -20,4 +20,9 @@ public enum WireElectronState implements CellState{
             default: return this;
         }
     }
+
+    @Override
+    public CellState alive() {
+        return WIRE;
+    }
 }

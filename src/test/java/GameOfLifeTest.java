@@ -2,12 +2,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import pl.edu.marcskow.gameoflife.automat2dim.GameOfLife;
 import pl.edu.marcskow.gameoflife.cell.Cell;
-import pl.edu.marcskow.gameoflife.coordinates.CellCoordinates;
 import pl.edu.marcskow.gameoflife.coordinates.Coords2D;
-import pl.edu.marcskow.gameoflife.factory.GeneralStateFactory;
-import pl.edu.marcskow.gameoflife.neighborhood.MoreNeighborhood;
+import pl.edu.marcskow.gameoflife.neighborhood.MoorNeighborhood;
 import pl.edu.marcskow.gameoflife.state.BinaryState;
-import pl.edu.marcskow.gameoflife.state.CellState;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +21,7 @@ public class GameOfLifeTest {
     public void hasNextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood(),
+                new MoorNeighborhood(),
                 301,
                 201
         );
@@ -44,7 +41,7 @@ public class GameOfLifeTest {
     public void initialCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood(),
+                new MoorNeighborhood(),
                 301,
                 201
         );
@@ -59,7 +56,7 @@ public class GameOfLifeTest {
     public void nextCoordinates() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood(),
+                new MoorNeighborhood(),
                 301,
                 201
         );
@@ -86,7 +83,7 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd3AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood(),
+                new MoorNeighborhood(),
                 301,
                 201
         );
@@ -114,7 +111,7 @@ public class GameOfLifeTest {
     public void nextCellStateForCellInBothStatesAnd6AliveNeighboorCells() {
         GameOfLife gameOfLife = new GameOfLife(
                 null,
-                new MoreNeighborhood(),
+                new MoorNeighborhood(),
                 301,
                 201
         );

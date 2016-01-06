@@ -67,34 +67,6 @@ public class LangtonAnt extends Automaton2Dim{
                 result.setAntState(AntState.NORTH);
             }
         }
-            /*
-
-            if((ifCoordsEqual(c,x+1,y) && isAntEqual(c,AntState.WEST) && currentBinaryState == BinaryState.ALIVE)) {
-
-                return new LangtonCell(BinaryState.DEAD, AntState.SOUTH);
-            }
-            else if((ifCoordsEqual(c,x+1,y) && isAntEqual(c,AntState.WEST) && currentBinaryState == BinaryState.DEAD)) {
-                return new LangtonCell(BinaryState.ALIVE, AntState.NORTH);
-            }
-            else if((ifCoordsEqual(c,x-1,y) && isAntEqual(c,AntState.EAST) && currentBinaryState == BinaryState.ALIVE)) {
-                return new LangtonCell(BinaryState.DEAD, AntState.NORTH);
-            }
-            else if((ifCoordsEqual(c,x-1,y) && isAntEqual(c,AntState.EAST) && currentBinaryState == BinaryState.DEAD)) {
-                return new LangtonCell(BinaryState.ALIVE, AntState.SOUTH);
-            }
-            else if((ifCoordsEqual(c,x,y+1) && isAntEqual(c,AntState.NORTH) && currentBinaryState == BinaryState.ALIVE)) {
-                return new LangtonCell(BinaryState.DEAD, AntState.WEST);
-            }
-            else if((ifCoordsEqual(c,x,y+1) && isAntEqual(c,AntState.NORTH) && currentBinaryState == BinaryState.DEAD)) {
-                return new LangtonCell(BinaryState.ALIVE, AntState.EAST);
-            }
-            else if((ifCoordsEqual(c,x,y-1) && isAntEqual(c,AntState.SOUTH) && currentBinaryState == BinaryState.ALIVE)) {
-                return new LangtonCell(BinaryState.DEAD, AntState.EAST);
-            }
-            else if((ifCoordsEqual(c,x,y-1) && isAntEqual(c,AntState.SOUTH) && currentBinaryState == BinaryState.DEAD)) {
-                return new LangtonCell(BinaryState.ALIVE, AntState.WEST);
-            }
-        }*/
 
         return result;
     }

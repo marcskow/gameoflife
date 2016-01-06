@@ -14,4 +14,11 @@ public enum BinaryState implements CellState {
             default: return this;
         }
     }
+
+    @Override
+    public CellState alive() {
+        return ALIVE;
+    }
+
+
 }

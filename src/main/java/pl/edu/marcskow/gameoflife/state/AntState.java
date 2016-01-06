@@ -22,4 +22,11 @@ public enum AntState implements CellState {
             default: return NORTH;
         }
     }
+
+    @Override
+    public CellState alive() {
+        return NONE;
+    }
+
+
 }

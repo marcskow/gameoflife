@@ -21,8 +21,8 @@ public class QuadLife extends Automaton2Dim {
 
     public QuadLife(CellStateFactory cellStateFactory, CellNeighborhood cellNeighborhood, int width, int height){
         super(cellStateFactory, cellNeighborhood);
-        setHeight(height);
         setWidth(width);
+        setHeight(height);
     }
 
     @Override

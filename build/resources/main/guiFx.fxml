@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.marcskow.gameoflife.gui.AutomatonController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.marcskow.gameoflife.gui.controller.AutomatonController">
     <children>
         <SplitPane dividerPositions="0.753934191702432" layoutX="540.0" layoutY="317.0" prefHeight="720.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -58,12 +58,12 @@
                             </rowConstraints>
                             <children>
                                 <Label text="Automaton" />
-                                <CheckBox id="wrappingCheckBox" fx:id="wrappingCheckBox" mnemonicParsing="false" text="Wrapping" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <ChoiceBox id="neighbourhoodChoiceBox" fx:id="neighbourhoodChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <CheckBox id="wrappingCheckBox" fx:id="wrappingCheckBox" mnemonicParsing="false" onAction="#wrappingOnChangeListener" selected="true" text="Wrapping" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <ChoiceBox id="neighbourhoodChoiceBox" fx:id="neighbourhoodChoiceBox" onAction="#neighborhoodBoxOnChangeListener" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="Insert structure" GridPane.rowIndex="2" />
-                                <ChoiceBox id="structureChoiceBox" fx:id="structureChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <ChoiceBox id="structureChoiceBox" fx:id="structureChoiceBox" onAction="#structureBoxOnChangeListener" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                 <Label text="Neighbourhood" GridPane.rowIndex="1" />
-                                <ChoiceBox id="automatonChoiceBox" fx:id="automatonChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                                <ChoiceBox id="automatonChoiceBox" fx:id="automatonChoiceBox" onAction="#automatonBoxOnChangeListener" prefWidth="150.0" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                         <GridPane layoutX="17.0" layoutY="339.0" prefHeight="41.0" prefWidth="281.0">
@@ -76,7 +76,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Button id="startingButton" fx:id="startButton" mnemonicParsing="false" onAction="#onStart" prefHeight="31.0" prefWidth="98.0" text="Start" />
+                                <Button id="startingButton" fx:id="startButton" defaultButton="true" mnemonicParsing="false" onAction="#onStart" prefHeight="31.0" prefWidth="98.0" text="Start" />
                                 <Button id="nextgenButton" fx:id="nextgenButton" mnemonicParsing="false" onAction="#nextGeneration" prefHeight="31.0" prefWidth="96.0" text="Next" GridPane.columnIndex="1" />
                                 <Button id="resetButton" fx:id="resetButton" mnemonicParsing="false" onAction="#reset" prefHeight="31.0" prefWidth="98.0" text="Reset" GridPane.columnIndex="2" />
                             </children>
@@ -94,12 +94,14 @@
                             </rowConstraints>
                             <children>
                                 <Label GridPane.rowIndex="1" />
-                                <Label fx:id="surviveLabel" text="Old cell surviving" GridPane.rowIndex="2" />
-                                <Label fx:id="newcellLabel" text="New cell" GridPane.rowIndex="1" />
-                                <TextField id="newCellRuleTextField" fx:id="newRuleTextField" alignment="CENTER_RIGHT" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextField id="surviveRuleTextField" fx:id="surviveRuleTextField" alignment="CENTER_RIGHT" text="23" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label fx:id="elementaryRuleLabel" text="Rule" GridPane.rowIndex="3" />
-                                <TextField fx:id="elementaryRuleTextField" alignment="CENTER_RIGHT" text="30" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label fx:id="surviveLabel" text="Old cell surviving" visible="false" GridPane.rowIndex="2" />
+                                <Label fx:id="newcellLabel" text="New cell" visible="false" GridPane.rowIndex="1" />
+                                <TextField id="newCellRuleTextField" fx:id="newRuleTextField" alignment="CENTER_RIGHT" text="3" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField id="surviveRuleTextField" fx:id="surviveRuleTextField" alignment="CENTER_RIGHT" text="23" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label fx:id="elementaryRuleLabel" text="Rule" visible="false" GridPane.rowIndex="3" />
+                                <TextField fx:id="elementaryRuleTextField" alignment="CENTER_RIGHT" text="30" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Radius" />
+                        <TextField fx:id="radiusTextField" alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="140.0" text="1" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                         <GridPane layoutX="25.0" layoutY="403.0" prefHeight="41.0" prefWidth="291.0">
@@ -111,18 +113,18 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <ChoiceBox fx:id="sizeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                                <ChoiceBox fx:id="sizeChoiceBox" onAction="#sizeBoxOnChangeListener" prefWidth="150.0" GridPane.columnIndex="1" />
                                 <Label text="Size" />
                             </children>
                         </GridPane>
-                  <Slider fx:id="generationTimeSlider" layoutX="8.0" layoutY="485.0" majorTickUnit="2500.0" max="2000.0" min="100.0" minorTickCount="10" prefHeight="18.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1050.0" />
-                  <Label layoutX="25.0" layoutY="464.0" text="One generation time (ms):" />
-                  <Label fx:id="errorTitle" layoutX="83.0" layoutY="692.0" text="ERROR" textFill="RED">
+                  <Slider fx:id="generationTimeSlider" layoutX="8.0" layoutY="485.0" majorTickUnit="2500.0" max="1000.0" min="50.0" minorTickCount="10" prefHeight="18.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="280.0" />
+                  <Label layoutX="25.0" layoutY="464.0" text="One generation time:" />
+                  <Label fx:id="errorTitle" layoutX="83.0" layoutY="692.0" text="ERROR" textFill="RED" visible="false">
                      <font>
                         <Font name="Arial" size="48.0" />
                      </font>
                   </Label>
-                  <Label fx:id="errorText" layoutX="46.0" layoutY="756.0" text="Incomplete automaton settings" textFill="RED">
+                  <Label fx:id="errorText" layoutX="46.0" layoutY="772.0" prefWidth="249.0" text="Incomplete automaton settings" textFill="RED" visible="false">
                      <font>
                         <Font size="18.0" />
                      </font>

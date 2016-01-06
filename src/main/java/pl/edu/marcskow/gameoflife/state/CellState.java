@@ -5,4 +5,5 @@ package pl.edu.marcskow.gameoflife.state;
  */
 public interface CellState {
     CellState nextState();
+    CellState alive();
 }

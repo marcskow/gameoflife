@@ -1,4 +1,4 @@
-package pl.edu.marcskow.gameoflife.gui;
+package pl.edu.marcskow.gameoflife.gui.helpers;
 
 import javafx.scene.paint.Color;
 import pl.edu.marcskow.gameoflife.cell.Ant;
@@ -7,21 +7,17 @@ import pl.edu.marcskow.gameoflife.state.*;
 /**
  * Created by Marcin Skowron on 2016-01-03.
  */
-public class GridDisplayController {
-    public static final int DEFAULT_STROKE_WIDTH = 1;
-    public static final Color DEFAULT_STROKE_COLOR = Color.GRAY;
+public class DisplayService {
 
-    private Color defaultColor = Color.WHITE;
-
-    public Color convertBinaryStateToColor(BinaryState state){
+    public static Color convertBinaryStateToColor(BinaryState state){
         switch (state){
-            case ALIVE: return Color.YELLOW;
+            case ALIVE: return Color.BLACK;
             case DEAD: return Color.WHITE;
             default: return Color.WHITE;
         }
     }
 
-    public Color convertQuadStateToColor(QuadState state){
+    public static Color convertQuadStateToColor(QuadState state){
         switch (state){
             case DEAD: return Color.WHITE;
             case RED: return Color.RED;
@@ -32,7 +28,7 @@ public class GridDisplayController {
         }
     }
 
-    public Color convertWireElectronStateToColor(WireElectronState state){
+    public static Color convertWireElectronStateToColor(WireElectronState state){
         switch (state){
             case VOID: return Color.BLACK;
             case WIRE: return Color.ORANGE;
@@ -42,7 +38,7 @@ public class GridDisplayController {
         }
     }
 
-    public Color convertLangtonCellToColor(LangtonCell state){
+    public static Color convertLangtonCellToColor(LangtonCell state){
         if(state.getAntState() == AntState.NONE && state.getCellState() == BinaryState.ALIVE){
             return Color.BLACK;
         }
@@ -55,7 +51,7 @@ public class GridDisplayController {
         else return Color.WHITE;
     }
 
-    public Color setColorToAutomatonType(String automaton, CellState state){
+    public static Color setColorToAutomatonType(String automaton, CellState state){
         switch (automaton){
             case "Game Of Life": return convertBinaryStateToColor((BinaryState) state);
             case "Langton Ant": return convertLangtonCellToColor((LangtonCell) state);
