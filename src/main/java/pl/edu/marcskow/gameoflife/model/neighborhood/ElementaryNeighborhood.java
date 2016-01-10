@@ -43,12 +43,11 @@ public class ElementaryNeighborhood implements CellNeighborhood {
         int currentX = ((Coords1D) cellCoordinates).getX();
         Wrapper wrapper = new Wrapper(isWrapping);
 
-        if(wrapper.wrapIfWrapping(currentX - 1, mapSize) >= 0) {
-            cellNeighbors.add(new Coords1D(wrapper.wrapIfWrapping(currentX - 1, mapSize)));
-        }
-        if(wrapper.wrapIfWrapping(currentX + 1, mapSize) < mapSize){
-            cellNeighbors.add(new Coords1D(wrapper.wrapIfWrapping(currentX + 1, mapSize)));
-        }
+
+        cellNeighbors.add(new Coords1D(wrapper.wrapIfWrapping(currentX - 1, mapSize)));
+
+        cellNeighbors.add(new Coords1D(wrapper.wrapIfWrapping(currentX + 1, mapSize)));
+
         return cellNeighbors;
     }
 

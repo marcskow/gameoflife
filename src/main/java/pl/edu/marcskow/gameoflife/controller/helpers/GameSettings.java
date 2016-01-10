@@ -1,9 +1,7 @@
 package pl.edu.marcskow.gameoflife.controller.helpers;
 
 /**
- * Sincerely it's probably not the best idea to storage this here, but it's needed to set new cell states in
- * automatons, in next version it will be rebuild to set this when the automaton is starting and transfered to
- * the automaton classes
+ * Created by Marcin Skowron on 2016-01-05.
  */
 public class GameSettings {
     public static int[] bornRule;
