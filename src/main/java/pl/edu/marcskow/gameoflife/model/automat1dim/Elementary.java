@@ -7,12 +7,15 @@ package pl.edu.marcskow.gameoflife.model.automat1dim;
 import pl.edu.marcskow.gameoflife.model.automat.Automaton;
 import pl.edu.marcskow.gameoflife.model.cell.Cell;
 import pl.edu.marcskow.gameoflife.model.factory.CellStateFactory;
+import pl.edu.marcskow.gameoflife.model.factory.GeneralStateFactory;
 import pl.edu.marcskow.gameoflife.model.neighborhood.CellNeighborhood;
 import pl.edu.marcskow.gameoflife.model.neighborhood.ElementaryNeighborhood;
+import pl.edu.marcskow.gameoflife.model.neighborhood.MoorNeighborhood;
 import pl.edu.marcskow.gameoflife.model.state.BinaryState;
 import pl.edu.marcskow.gameoflife.model.state.CellState;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * One dimensional automaton extending Automaton1Dim abstract class.
@@ -22,6 +25,7 @@ import java.util.Set;
  * @see Automaton
  */
 public class Elementary extends Automaton1Dim {
+    private static final Logger log = Logger.getLogger(Elementary.class.getName());
     private int elementaryRule;
 
     /**
@@ -100,7 +104,7 @@ public class Elementary extends Automaton1Dim {
         }
         int[] binaryNumber = new int[8];
         int i = 0;
-        while(number > 1){
+        while(number > 0){
             binaryNumber[i++] = number % 2;
             number /= 2;
         }
