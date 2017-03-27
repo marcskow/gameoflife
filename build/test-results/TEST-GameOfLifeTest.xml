@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GameOfLifeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-03-08T18:03:24" hostname="marcskow-Inspiron-7520" time="0.002">
+  <properties/>
+  <testcase name="initialCoordinates" classname="GameOfLifeTest" time="0.001"/>
+  <testcase name="nextCoordinates" classname="GameOfLifeTest" time="0.0"/>
+  <testcase name="nextCellStateForCellInBothStatesAnd6AliveNeighboorCells" classname="GameOfLifeTest" time="0.0"/>
+  <testcase name="nextCellStateForCellInBothStatesAnd3AliveNeighboorCells" classname="GameOfLifeTest" time="0.0"/>
+  <testcase name="hasNextCoordinates" classname="GameOfLifeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

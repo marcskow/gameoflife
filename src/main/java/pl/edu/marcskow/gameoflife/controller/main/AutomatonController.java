@@ -6,17 +6,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import pl.edu.marcskow.gameoflife.controller.helpers.*;
 import pl.edu.marcskow.gameoflife.model.automat.Automaton;
 import pl.edu.marcskow.gameoflife.controller.structures.Structures;
+import pl.edu.marcskow.gameoflife.util.gui.GridDrawer;
+import pl.edu.marcskow.gameoflife.util.gui.Settings;
 
 import java.net.URL;
 import java.util.*;
@@ -62,56 +68,38 @@ public class AutomatonController extends AnchorPane implements Initializable {
     private Automaton newAutomaton;
 
     //General settings
-    @FXML
-    ChoiceBox<String> automatonChoiceBox;
-    @FXML
-    ChoiceBox<String> neighbourhoodChoiceBox;
-    @FXML
-    ChoiceBox<String> sizeChoiceBox;
+    @FXML ChoiceBox<String> automatonChoiceBox;
+    @FXML ChoiceBox<String> neighbourhoodChoiceBox;
+    @FXML ChoiceBox<String> sizeChoiceBox;
 
     //Additional settings
-    @FXML
-    ChoiceBox<String> structureChoiceBox;
-    @FXML
-    CheckBox wrappingCheckBox;
-    @FXML
-    Slider generationTimeSlider;
-    @FXML
-    TextField radiusTextField;
+    @FXML ChoiceBox<String> structureChoiceBox;
+    @FXML CheckBox wrappingCheckBox;
+    @FXML Slider generationTimeSlider;
+    @FXML TextField radiusTextField;
 
     //Game running
-    @FXML
-    Button startButton;
-    @FXML
-    Button nextgenButton;
-    @FXML
-    Button resetButton;
+    @FXML Button startButton;
+    @FXML Button nextgenButton;
+    @FXML Button resetButton;
 
     //GameOfLife internal rules
-    @FXML
-    TextField newRuleTextField;
-    @FXML
-    TextField surviveRuleTextField;
-    @FXML
-    Label newcellLabel;
-    @FXML
-    Label surviveLabel;
+    @FXML TextField newRuleTextField;
+    @FXML TextField surviveRuleTextField;
+    @FXML Label newcellLabel;
+    @FXML Label surviveLabel;
 
     //Elementary internal rules
-    @FXML
-    TextField elementaryRuleTextField;
-    @FXML
-    Label elementaryRuleLabel;
+    @FXML TextField elementaryRuleTextField;
+    @FXML Label elementaryRuleLabel;
 
     //Board
-    @FXML
-    GridPane gridPane;
+    @FXML AnchorPane gridPane;
+    @FXML Canvas gridCanvas;
 
     //Error
-    @FXML
-    Label errorText;
-    @FXML
-    Label errorTitle;
+    @FXML Label errorText;
+    @FXML Label errorTitle;
 
     //Some things like action listeners are set in FXML file
 
@@ -137,6 +125,16 @@ public class AutomatonController extends AnchorPane implements Initializable {
 
         initializeDefault();
         initializeStart();
+
+        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+        GridDrawer.drawGrid(gc, gridCanvas.getWidth(), gridCanvas.getHeight());
+
+        gridPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                GridDrawer.drawRectangle(gridCanvas.getGraphicsContext2D(), (int) (mouseEvent.getY() / 30), (int) mouseEvent.getX() / 30);
+            }
+        });
     }
 
     @FXML
@@ -288,15 +286,15 @@ public class AutomatonController extends AnchorPane implements Initializable {
         switch(action) {
             case "Next":
                 gridModel.changeOnMapCellStateToNext(roundedX,roundedY);
-                drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
+                //drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
                 break;
             case "Alive":
                 gridModel.putElementOnMap(roundedX,roundedY,gridModel.getCellFromMap(roundedX,roundedY).alive());
-                drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
+               // drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
                 break;
             case "Dead":
                 gridModel.putElementOnMap(roundedX,roundedY,DisplayService.setDefaultStateToAutomatonType(onStartService.getAutomatonType()));
-                drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
+             //   drowRectangle(DisplayService.setColorToAutomatonType(onStartService.getAutomatonType(),gridModel.getCellFromMap(roundedX,roundedY)),roundedX,roundedY);
                 break;
             default:
                 gridModel = put.putOnMap(roundedX, roundedY, action, automatonChoiceBox.getSelectionModel().getSelectedItem(), structures);
@@ -379,23 +377,40 @@ public class AutomatonController extends AnchorPane implements Initializable {
 
     public void updateGridDisplay() {
         Color color;
-        gridPane.getChildren().clear();
+      //  gridPane.getChildren().clear();
 
-        for (int i = 0; i < gridModel.getColumns(); i++) {
-            for (int j = 0; j < gridModel.getRows(); j++) {
-                color = DisplayService.setColorToAutomatonType(gridModel.getAutomatonType(), gridModel.getCellFromMap(i, j));// TODO: 2016-01-03
-                drowRectangle(color, i, j);
-            }
-        }
-    }
+//        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+//        gc.clearRect(0, 0, getWidth(), getHeight());
+//
+//        // vertical lines
+//        gc.setStroke(Color.BLUE);
+//        for(int i = 0 ; i < getWidth() ; i+=30){
+//            gc.strokeLine(i, 0, i, getHeight() - (getHeight()%30));
+//        }
+//
+//        // horizontal lines
+//        gc.setStroke(Color.RED);
+//        for(int i = 30 ; i < getHeight() ; i+=30){
+//            gc.strokeLine(30, i, getWidth(), i);
+//        }
 
-    private void drowRectangle(Color color, int x, int y) {
-        Rectangle rectangle = new Rectangle((gridModel.getWidth() / gridModel.getColumns()) - 1, (gridModel.getHeight() / gridModel.getRows()) - 1);
-        rectangle.setFill(color);
-        rectangle.setStroke(DEFAULT_STROKE_COLOR);
-        rectangle.setStrokeWidth(DEFAULT_STROKE_WIDTH);
-        gridPane.add(rectangle, x, y);
+
+
+//        for (int i = 0; i < gridModel.getColumns(); i++) {
+//            for (int j = 0; j < gridModel.getRows(); j++) {
+//                color = DisplayService.setColorToAutomatonType(gridModel.getAutomatonType(), gridModel.getCellFromMap(i, j));// TODO: 2016-01-03
+//                drowRectangle(color, i, j);
+//            }
+//        }
     }
+//
+//    private void drowRectangle(Color color, int x, int y) {
+//        Rectangle rectangle = new Rectangle((gridModel.getWidth() / gridModel.getColumns()) - 1, (gridModel.getHeight() / gridModel.getRows()) - 1);
+//        rectangle.setFill(color);
+//        rectangle.setStroke(DEFAULT_STROKE_COLOR);
+//        rectangle.setStrokeWidth(DEFAULT_STROKE_WIDTH);
+//        gridPane.add(rectangle, x, y);
+//    }
 
 
     private void changeAutomatonType(String newType, ObservableList<String> structure, ObservableList<String> neighbourhood, boolean areGameOfLifeRulesVisible, boolean areElementaryRulesVisible) {
